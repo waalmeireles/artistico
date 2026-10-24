@@ -34,7 +34,8 @@ Transformar o antigo portfólio de UGC em um portfólio artístico para Walquír
   - Foto de capa.
 - Menu com links para Sobre, Trabalhos, Formação e Contato. “Trabalhos” leva à seção que mantém o título “Linguagens artísticas”.
 - Seção “Sobre mim” com a apresentação de multiartista, trajetória desde a infância no teatro e atuação na cena desde 2014, além da relação com circo, performance, bastidores e produção.
-- Seção “Linguagens artísticas” com cards clicáveis para Teatro, Circo e Performance. Cada card leva à página de trabalhos da respectiva linguagem.
+- Seção “Linguagens artísticas” com cards clicáveis, nesta ordem: Performance, Teatro e Circo. Cada card leva à página de trabalhos da respectiva linguagem. Cor e moldura de cada card vêm das classes `lang-performance`, `lang-teatro` e `lang-circo` (Performance: forma orgânica que se transforma; Teatro: arco de palco com cortinas que abrem; Circo: foto redonda em anel listrado que gira). A inclinação depende só da posição.
+- Foto do “Sobre mim” em moldura orgânica com bolha terracota atrás, fita, adesivo “multi artista” e estrelinhas. O adesivo “A arte acontece por inteiro” tem holofote animado, palavras carimbadas e selo giratório.
 - Seção de produção e criação, formação artística, contato e rodapé.
 - A seção “Trabalhos em cena” e os filtros de trabalhos foram removidos da página inicial, conforme solicitado.
 - Contatos:

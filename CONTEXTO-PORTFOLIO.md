@@ -47,15 +47,16 @@ Transformar o antigo portfólio de UGC em um portfólio artístico para Walquír
 ### Página de trabalhos (`linguagem.html`)
 
 - Exibe trabalhos conforme a linguagem escolhida na URL.
+- O nome da linguagem fica em preto, circulado por uma linha terracota em forma de cápsula, como traço de caneta, que se desenha ao abrir a página. As letras sobem suavemente. A usuária achou exagerado um disco bordô com anel e estrela girando: manter este visual simples. O nome de cada empresa entra "puxado" por uma linha que se desenha com uma ✳ na ponta, quando o cabeçalho aparece na tela. As letras são separadas por `splitLetters()`, que mantém o nome inteiro para leitores de tela.
 - Teatro e Circo têm os títulos de trabalhos que foram informados, ainda sem imagens.
 - Trabalhos sem foto aparecem como lista de títulos, sem caixas de imagem vazias. Trabalhos com `imagem` aparecem na grade de fotos.
 - Empresas sem nenhum registro ficam ocultas. Hoje é o caso da Entretenimento Go, que aparece sozinha assim que receber itens.
 - Performance foi organizada por empresa, em seções separadas:
-  - **Posers**: 28 fotos JPG incluídas, otimizadas e organizadas em sequência visual aproximada por figurino/cenário.
+  - **Posers**: as 28 fotos antigas foram removidas a pedido da usuária. As fotos novas entram na ordem em que ela envia, cada card com o nome do evento (`titulo`) e a empresa. Até agora: 3 fotos do evento **Caixa Corporativo** , 3 do **BodyTech - Colônia de Férias**, 3 do **Conjunto Nacional - Dia das Crianças**, 3 do **Clube Naval - Ano Novo**, 3 do **Aniversário BodyTech**, 3 do **Base - Festa Junina CasaPark**, 3 do **Divulgação Porão do Rock nas ruas**, 2 do **Visit Brasil** e 1 do **SID**. No Aniversário BodyTech e na Festa Junina CasaPark, a foto da pasta `img` fica no meio, a pedido dela. A usuária avisou que as próximas fotos que mandar também serão da Posers.
   - **Fantastic**: aparecem quatro registros/títulos que já estavam no portfólio, mas ainda sem fotos específicas.
   - **Entretenimento Go**: seção criada, aguardando fotos e informações de eventos.
 - Os cards de foto têm tamanho/proporção consistentes e molduras arredondadas assimétricas, com variações entre os cards. O enquadramento usa `object-fit: cover`.
-- As fotos da Posers foram agrupadas visualmente com base em figurinos e cenários. Essa organização é aproximada: não se devem inventar nomes de eventos apenas pela aparência das fotos.
+- Nunca inventar nomes de eventos pela aparência das fotos: usar só o que a usuária informar.
 
 ## Fotos atualmente no projeto
 
@@ -67,7 +68,7 @@ Em `assets/`:
 - `linguagem-teatro.jpg`: foto do card de Teatro.
 - `linguagem-circo.jpg`: foto do card de Circo.
 - `linguagem-performance.jpg`: foto do card de Performance.
-- `posers/posers-01.jpg` até `posers-28.jpg`: fotos da pasta Posers.
+- `posers/caixa-corporativo-01.jpg` até `-03.jpg` , `posers/bodytech-colonia-de-ferias-01.jpg` até `-03.jpg`, `posers/conjunto-nacional-dia-das-criancas-01.jpg` até `-03.jpg`, `posers/clube-naval-ano-novo-01.jpg` até `-03.jpg`, `posers/aniversario-bodytech-01.jpg` até `-03.jpg`, `posers/base-festa-junina-casapark-01.jpg` até `-03.jpg`, `posers/porao-do-rock-nas-ruas-01.jpg` até `-03.jpg`, `posers/visit-brasil-01.jpg` e `-02.jpg` e `posers/sid-01.jpg`: fotos da Posers. Padrão de nome: `posers/<evento>-NN.jpg`.
 
 Todas são JPG de verdade e estão otimizadas: as fotos principais têm até cerca de 170 KB, e as da Posers têm no máximo 1200px no lado maior. Antes, algumas eram PNG com extensão `.jpg` e chegavam a 2 MB. Novas imagens devem seguir o mesmo padrão.
 
@@ -80,8 +81,8 @@ Na raiz do projeto também ficam:
 
 1. Receber as fotos e, se houver, os nomes dos eventos da **Fantastic** e da **Entretenimento Go**. Colocar cada registro sob a empresa correta na página de Performance.
 2. Receber fotos específicas para os cards e trabalhos de **Teatro** e **Circo**, caso a usuária queira substituir as imagens ou espaços reservados atuais.
-3. A pasta original da Posers continha também arquivos HEIC e DNG que não foram incluídos. Foram adicionados somente 28 JPGs que puderam ser convertidos e otimizados. Se forem necessários, pedir versões JPG ou convertê-los com uma ferramenta compatível.
-4. A usuária planeja remover algumas fotos da Posers depois, para equilibrar a quantidade de imagens entre as empresas. Não remover fotos sem ela indicar quais.
+3. Fotos HEIC (iPhone) e DNG (RAW) podem ser convertidas no próprio Windows: PowerShell + `PresentationCore` (`BitmapDecoder`), redimensionando para no máximo 1200px e salvando como JPEG com qualidade 82. Aplicar a orientação EXIF (inclusive 5 e 7, que são espelhadas). A pasta `img/` guarda os originais enviados.
+4. Seguir a ordem de envio das fotos e confirmar o evento de cada lote.
 5. Ao receber novas imagens, sempre ajustar o enquadramento para valorizar a pessoa/ação e manter a grade visual consistente. Usar texto alternativo descritivo e otimizar imagens grandes quando possível.
 6. Confirmar com a usuária os nomes de eventos quando eles não puderem ser identificados com segurança; evitar criar créditos, funções, datas ou contexto não fornecidos.
 7. **Publicação:** o repositório é `https://github.com/waalmeireles/artistico.git` e o endereço final será `https://waalmeireles.github.io/artistico/`. `og:url` e `og:image` já apontam para esse endereço. Publicado em 2026-10-23: GitHub Pages ativo (branch `main`, pasta raiz). Para atualizar, basta commit + `git push`; o site atualiza em 1–2 minutos.

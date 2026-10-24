@@ -55,13 +55,35 @@
     main { min-height: calc(100vh - 150px); padding: 72px 0 90px; }
     .intro { max-width: 760px; margin: 0 auto 48px; text-align: center; }
     .eyebrow { margin-bottom: 8px; color: var(--burgundy); font: 700 1.3rem/1 var(--hand); }
-    h1 { margin: 0 0 14px; font: 400 clamp(3rem, 8vw, 6rem)/1 var(--display); }
     .intro > p:last-child { margin: 0; font-size: 1.1rem; }
+
+    /* Nome da linguagem circulado por uma linha que se desenha, como traço de caneta */
+    .title-wrap { position: relative; display: inline-block; margin: 6px 0 18px; padding: .3em .5em; font-size: clamp(2.4rem, 9vw, 6rem); }
+    h1 { margin: 0; font: 400 1em/1 var(--display); white-space: nowrap; }
+    .title-letter { display: inline-block; }
+    h1 .title-letter { animation: letter-rise .5s ease backwards; animation-delay: calc(var(--i) * 45ms); }
+    @keyframes letter-rise { from { opacity: 0; transform: translateY(18px); } }
+    .title-circle { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; fill: none; stroke: var(--terracotta); stroke-width: 3.5; stroke-linecap: round; transform: rotate(-1.5deg); pointer-events: none; }
+    .title-circle path { stroke-dasharray: 2400; stroke-dashoffset: 2400; animation: draw-circle 1.6s .35s ease-out forwards; }
+    @keyframes draw-circle { to { stroke-dashoffset: 0; } }
+    @keyframes letter-wave { 0%, 60%, 100% { transform: translateY(0) rotate(0); } 30% { transform: translateY(-10px) rotate(-4deg); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     .company-section { margin-top: 52px; }
     .company-section:first-child { margin-top: 0; }
-    .company-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); }
-    .company-heading h2 { margin: 0; font: 400 clamp(2rem, 4vw, 3rem)/1 var(--display); }
+    /* Linha que se desenha e "puxa" o nome da empresa */
+    .company-heading { position: relative; display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 22px; padding-bottom: 14px; }
+    .company-line { position: absolute; left: 0; bottom: 0; width: 0; height: 3px; background: var(--ink); border-radius: 3px; }
+    .company-line::after { content: "✳"; position: absolute; right: -12px; top: -12px; color: var(--terracotta); font: 400 1.5rem/1 var(--marker); text-shadow: 1px 1px 0 var(--ink); animation: spin 6s linear infinite; }
+    .company-section.is-visible .company-line { animation: line-pull 1.1s cubic-bezier(.65, 0, .35, 1) forwards; }
+    @keyframes line-pull { to { width: 100%; } }
+    .company-heading h2 { margin: 0; opacity: 0; font: 400 clamp(2.2rem, 5vw, 3.4rem)/1 var(--display); }
+    .company-section.is-visible .company-heading h2 { opacity: 1; animation: name-pull .9s .15s cubic-bezier(.2, 1.4, .4, 1) backwards; }
+    @keyframes name-pull { from { opacity: 0; transform: translateX(-70px) skewX(-14deg); } }
+    .company-heading h2 .title-letter { text-shadow: 3px 3px 0 var(--terracotta); animation: letter-wave 3.6s ease-in-out infinite; animation-delay: calc(1.4s + var(--i) * 90ms); }
     .company-heading p { margin: 0; color: var(--burgundy); font: 400 1.1rem/1 var(--marker); }
+    .company-section.is-visible .company-heading p { animation: fade-in .5s .9s backwards; }
+    @keyframes fade-in { from { opacity: 0; } }
     .work-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: 24px; }
     .work-card {
       min-width: 0;
@@ -147,7 +169,12 @@
   <main class="wrap">
     <header class="intro">
       <p class="eyebrow">Portfólio artístico</p>
-      <h1 id="page-title">Trabalhos</h1>
+      <div class="title-wrap">
+        <h1 id="page-title">Trabalhos</h1>
+        <svg class="title-circle" viewBox="0 0 400 140" preserveAspectRatio="none" aria-hidden="true">
+          <path vector-effect="non-scaling-stroke" d="M300 10 C220 6 120 8 64 12 C20 15 6 45 8 72 C10 105 30 128 70 130 C150 134 260 133 336 129 C378 126 394 100 392 70 C390 38 372 14 330 11 C300 9 270 12 246 16"></path>
+        </svg>
+      </div>
       <p id="page-description">Um recorte dos trabalhos de Walquíria Meireles.</p>
     </header>
     <div id="work-grid" aria-label="Trabalhos artísticos"></div>
@@ -195,20 +222,129 @@
         empresas: [
           {
             nome: "Posers",
+            // Fotos na ordem enviada. "titulo" é o nome do evento.
             itens: [
-              "posers-16.jpg", "posers-18.jpg", "posers-19.jpg",
-              "posers-02.jpg", "posers-24.jpg", "posers-26.jpg", "posers-27.jpg",
-              "posers-01.jpg", "posers-11.jpg", "posers-04.jpg",
-              "posers-08.jpg", "posers-09.jpg",
-              "posers-06.jpg", "posers-10.jpg", "posers-12.jpg",
-              "posers-03.jpg", "posers-05.jpg", "posers-13.jpg", "posers-21.jpg",
-              "posers-14.jpg", "posers-15.jpg", "posers-17.jpg", "posers-20.jpg",
-              "posers-25.jpg", "posers-28.jpg", "posers-22.jpg",
-              "posers-07.jpg", "posers-23.jpg"
-            ].map((arquivo, indice) => ({
-              imagem: `assets/posers/${arquivo}`,
-              descricao: `Registro de performance ${indice + 1} com a Posers`
-            }))
+              {
+                imagem: "assets/posers/caixa-corporativo-01.jpg",
+                titulo: "Caixa Corporativo",
+                descricao: "Walquíria Meireles sorrindo, de chapéu e figurino verde-azulado com brilhos e maquiagem artística colorida, com as mãos sob o rosto"
+              },
+              {
+                imagem: "assets/posers/caixa-corporativo-02.jpg",
+                titulo: "Caixa Corporativo",
+                descricao: "Retrato de Walquíria Meireles com chapéu pontudo verde-azulado, figurino com recortes em verde e roxo e maquiagem artística"
+              },
+              {
+                imagem: "assets/posers/caixa-corporativo-03.jpg",
+                titulo: "Caixa Corporativo",
+                descricao: "Walquíria Meireles de braços abertos, com figurino completo em verde, roxo e azul-petróleo coberto de brilhos"
+              },
+              {
+                imagem: "assets/posers/bodytech-colonia-de-ferias-01.jpg",
+                titulo: "BodyTech - Colônia de Férias",
+                descricao: "Walquíria Meireles sorrindo, caracterizada como ave azul, com leque de penas listradas, maquiagem artística azul e verde com brilhos e luvas em forma de asas"
+              },
+              {
+                imagem: "assets/posers/bodytech-colonia-de-ferias-02.jpg",
+                titulo: "BodyTech - Colônia de Férias",
+                descricao: "Walquíria Meireles com figurino de ave azul e grande leque de penas, segurando o folheto da Colônia de Férias Encantos do Brasil"
+              },
+              {
+                imagem: "assets/posers/bodytech-colonia-de-ferias-03.jpg",
+                titulo: "BodyTech - Colônia de Férias",
+                descricao: "Retrato de Walquíria Meireles caracterizada como ave azul, com expressão séria, penas listradas e maquiagem azul com brilhos"
+              },
+              {
+                imagem: "assets/posers/conjunto-nacional-dia-das-criancas-01.jpg",
+                titulo: "Conjunto Nacional - Dia das Crianças",
+                descricao: "Walquíria Meireles, de chapéu cônico em espiral e saia rodada colorida, de mãos dadas com outros três artistas fantasiados no shopping"
+              },
+              {
+                imagem: "assets/posers/conjunto-nacional-dia-das-criancas-02.jpg",
+                titulo: "Conjunto Nacional - Dia das Crianças",
+                descricao: "Walquíria Meireles de corpo inteiro, com chapéu cônico em espiral, saia rodada de babados e meias listradas, sobre tapete vermelho"
+              },
+              {
+                imagem: "assets/posers/conjunto-nacional-dia-das-criancas-03.jpg",
+                titulo: "Conjunto Nacional - Dia das Crianças",
+                descricao: "Retrato de Walquíria Meireles com chapéu em espiral, maquiagem artística em rosa, verde e azul e figurino com espelhos e paetês"
+              },
+              {
+                imagem: "assets/posers/clube-naval-ano-novo-01.jpg",
+                titulo: "Clube Naval - Ano Novo",
+                descricao: "Walquíria Meireles com figurino inteiramente coberto de espelhos, chapéu de abas largas, máscara espelhada e leque, posando em frente a uma parede clara"
+              },
+              {
+                imagem: "assets/posers/clube-naval-ano-novo-02.jpg",
+                titulo: "Clube Naval - Ano Novo",
+                descricao: "Walquíria Meireles e outro artista com figurinos de espelhos, diante de um letreiro luminoso de Feliz 2026"
+              },
+              {
+                imagem: "assets/posers/clube-naval-ano-novo-03.jpg",
+                titulo: "Clube Naval - Ano Novo",
+                descricao: "Walquíria Meireles com figurino e máscara de espelhos, mãos de luvas pretas abertas, com fogos de artifício no céu noturno ao fundo"
+              },
+              {
+                imagem: "assets/posers/aniversario-bodytech-01.jpg",
+                titulo: "Aniversário BodyTech",
+                descricao: "Walquíria Meireles, à esquerda, e outro artista com macacões pretos cobertos de espelhos prateados e dourados e capacetes de lâminas espelhadas"
+              },
+              {
+                imagem: "assets/posers/aniversario-bodytech-02.jpg",
+                titulo: "Aniversário BodyTech",
+                descricao: "Walquíria Meireles sozinha, de perfil, com capacete de lâminas espelhadas e figurino preto com discos prateados e dourados"
+              },
+              {
+                imagem: "assets/posers/aniversario-bodytech-03.jpg",
+                titulo: "Aniversário BodyTech",
+                descricao: "Walquíria Meireles, à direita, e outro artista com figurinos espelhados ao lado de um arco de balões pretos e prateados"
+              },
+              {
+                imagem: "assets/posers/base-festa-junina-casapark-01.jpg",
+                titulo: "Base - Festa Junina CasaPark",
+                descricao: "Walquíria Meireles sorrindo com as mãos junto ao rosto, de vestido junino vermelho com brilhos e arranjo de flores vermelhas no cabelo"
+              },
+              {
+                imagem: "assets/posers/base-festa-junina-casapark-02.jpg",
+                titulo: "Base - Festa Junina CasaPark",
+                descricao: "Retrato de Walquíria Meireles sorrindo, de vestido junino vermelho de ombros à mostra e arranjo de flores no cabelo, diante de uma cortina vermelha"
+              },
+              {
+                imagem: "assets/posers/base-festa-junina-casapark-03.jpg",
+                titulo: "Base - Festa Junina CasaPark",
+                descricao: "Walquíria Meireles dançando com saia rodada vermelha de babados, ao lado de um cenário de cortina vermelha em forma de coração"
+              },
+              {
+                imagem: "assets/posers/porao-do-rock-nas-ruas-01.jpg",
+                titulo: "Divulgação Porão do Rock nas ruas",
+                descricao: "Walquíria Meireles com figurino espelhado, capacete de globo de espelhos e viseira escura, caminhando entre as mesas de um evento ao ar livre à noite"
+              },
+              {
+                imagem: "assets/posers/porao-do-rock-nas-ruas-02.jpg",
+                titulo: "Divulgação Porão do Rock nas ruas",
+                descricao: "Walquíria Meireles de braço erguido, com figurino de espelhos e capacete espelhado, numa calçada à noite"
+              },
+              {
+                imagem: "assets/posers/porao-do-rock-nas-ruas-03.jpg",
+                titulo: "Divulgação Porão do Rock nas ruas",
+                descricao: "Walquíria Meireles sorrindo, de capacete espelhado com viseira e braço erguido, ao lado de outro artista com cartola e máscara de espelhos"
+              },
+              {
+                imagem: "assets/posers/visit-brasil-01.jpg",
+                titulo: "Visit Brasil",
+                descricao: "Walquíria Meireles com macacão azul estampado de pássaros e arranjo de tule azul, sentada num banco dentro de um arco de neon vermelho com o letreiro Visit Brasil"
+              },
+              {
+                imagem: "assets/posers/visit-brasil-02.jpg",
+                titulo: "Visit Brasil",
+                descricao: "Quatro artistas caracterizados, entre eles Walquíria Meireles com macacão azul estampado de pássaros, ao lado de duas artistas com figurinos de galhos e flores amarelas"
+              },
+              {
+                imagem: "assets/posers/sid-01.jpg",
+                titulo: "SID",
+                descricao: "Walquíria Meireles com macacão azul estampado de pássaros e arranjo de tule azul, braços cruzados junto ao rosto, diante de um letreiro SID em parede de cobogós"
+              }
+            ]
           },
           {
             nome: "Fantastic",
@@ -232,9 +368,25 @@
     const grid = document.querySelector("#work-grid");
     const invalidCategory = document.querySelector("#invalid-category");
 
+    // Separa o texto em letras animáveis; o leitor de tela continua lendo o nome inteiro.
+    const splitLetters = (element, text) => {
+      element.textContent = "";
+      element.setAttribute("aria-label", text);
+      element.style.setProperty("--len", text.length);
+      [...text].forEach((char, index) => {
+        const letter = document.createElement("span");
+        letter.className = "title-letter";
+        letter.setAttribute("aria-hidden", "true");
+        letter.style.setProperty("--i", index);
+        letter.textContent = char === " " ? " " : char;
+        element.append(letter);
+      });
+    };
+    const pageTitle = document.querySelector("#page-title");
+
     if (linguagem) {
       document.title = `${linguagem.nome} | Walquíria Meireles`;
-      document.querySelector("#page-title").textContent = linguagem.nome;
+      pageTitle.textContent = linguagem.nome;
       document.querySelector("#page-description").textContent = linguagem.descricao;
       // Empresas sem nenhum registro ficam ocultas até receberem fotos ou títulos.
       const grupos = (linguagem.empresas
@@ -254,13 +406,16 @@
           const companyHeading = document.createElement("header");
           companyHeading.className = "company-heading";
           const companyTitle = document.createElement("h2");
-          companyTitle.textContent = grupo.nome;
+          splitLetters(companyTitle, grupo.nome);
+          const companyLine = document.createElement("span");
+          companyLine.className = "company-line";
+          companyLine.setAttribute("aria-hidden", "true");
           const count = document.createElement("p");
           count.textContent = [
             comFoto.length && plural(comFoto.length, "foto", "fotos"),
             semFoto.length && plural(semFoto.length, "trabalho", "trabalhos")
           ].filter(Boolean).join(" · ");
-          companyHeading.append(companyTitle, count);
+          companyHeading.append(companyTitle, count, companyLine);
           companySection.append(companyHeading);
         }
 
@@ -311,6 +466,25 @@
     } else {
       grid.hidden = true;
       invalidCategory.hidden = false;
+    }
+    splitLetters(pageTitle, pageTitle.textContent);
+
+    // A linha de cada empresa se desenha quando o cabeçalho entra na tela
+    // (observa o cabeçalho, não a seção, porque seções com muitas fotos são altas demais).
+    const companyHeadings = document.querySelectorAll(".company-heading");
+    const showSection = (heading) => heading.closest(".company-section").classList.add("is-visible");
+    if ("IntersectionObserver" in window) {
+      const headingObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            showSection(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.6 });
+      companyHeadings.forEach((heading) => headingObserver.observe(heading));
+    } else {
+      companyHeadings.forEach(showSection);
     }
 
     document.querySelector("#current-year").textContent = new Date().getFullYear();

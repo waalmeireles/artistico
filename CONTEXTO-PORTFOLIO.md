@@ -52,7 +52,7 @@ Transformar o antigo portfólio de UGC em um portfólio artístico para Walquír
 - Trabalhos sem foto aparecem como lista de títulos, sem caixas de imagem vazias. Trabalhos com `imagem` aparecem na grade de fotos.
 - Empresas sem nenhum registro ficam ocultas. Hoje é o caso da Entretenimento Go, que aparece sozinha assim que receber itens.
 - Performance foi organizada por empresa, em seções separadas:
-  - **Posers**: as 28 fotos antigas foram removidas a pedido da usuária. As fotos novas entram na ordem em que ela envia, cada card com o nome do evento (`titulo`) e a empresa. Até agora: 3 fotos do evento **Caixa Corporativo** , 3 do **BodyTech - Colônia de Férias**, 3 do **Conjunto Nacional - Dia das Crianças**, 3 do **Clube Naval - Ano Novo**, 3 do **Aniversário BodyTech**, 3 do **Base - Festa Junina CasaPark**, 3 do **Divulgação Porão do Rock nas ruas**, 2 do **Visit Brasil** e 1 do **SID**. No Aniversário BodyTech e na Festa Junina CasaPark, a foto da pasta `img` fica no meio, a pedido dela. A usuária avisou que as próximas fotos que mandar também serão da Posers.
+  - **Posers**: as 28 fotos antigas foram removidas a pedido da usuária. As fotos novas entram na ordem em que ela envia, cada card com o nome do evento (`titulo`) e a empresa. Até agora: 3 fotos do evento **Caixa Corporativo**, 3 do **BodyTech - Colônia de Férias**, 3 do **Conjunto Nacional - Dia das Crianças**, 3 do **Clube Naval - Ano Novo**, 3 do **Aniversário BodyTech**, 3 do **Base - Festa Junina CasaPark**, 3 do **Divulgação Porão do Rock nas ruas**, 2 do **Visit Brasil** e 1 do **SID**. No Aniversário BodyTech e na Festa Junina CasaPark, a foto da pasta `img` fica no meio, a pedido dela. A usuária avisou que as próximas fotos que mandar também serão da Posers.
   - **Fantastic**: aparecem quatro registros/títulos que já estavam no portfólio, mas ainda sem fotos específicas.
   - **Entretenimento Go**: seção criada, aguardando fotos e informações de eventos.
 - Os cards de foto têm tamanho/proporção consistentes e molduras arredondadas assimétricas, com variações entre os cards. O enquadramento usa `object-fit: cover`.
@@ -68,7 +68,7 @@ Em `assets/`:
 - `linguagem-teatro.jpg`: foto do card de Teatro.
 - `linguagem-circo.jpg`: foto do card de Circo.
 - `linguagem-performance.jpg`: foto do card de Performance.
-- `posers/caixa-corporativo-01.jpg` até `-03.jpg` , `posers/bodytech-colonia-de-ferias-01.jpg` até `-03.jpg`, `posers/conjunto-nacional-dia-das-criancas-01.jpg` até `-03.jpg`, `posers/clube-naval-ano-novo-01.jpg` até `-03.jpg`, `posers/aniversario-bodytech-01.jpg` até `-03.jpg`, `posers/base-festa-junina-casapark-01.jpg` até `-03.jpg`, `posers/porao-do-rock-nas-ruas-01.jpg` até `-03.jpg`, `posers/visit-brasil-01.jpg` e `-02.jpg` e `posers/sid-01.jpg`: fotos da Posers. Padrão de nome: `posers/<evento>-NN.jpg`.
+- `posers/caixa-corporativo-01.jpg` até `-03.jpg`, `posers/bodytech-colonia-de-ferias-01.jpg` até `-03.jpg`, `posers/conjunto-nacional-dia-das-criancas-01.jpg` até `-03.jpg`, `posers/clube-naval-ano-novo-01.jpg` até `-03.jpg`, `posers/aniversario-bodytech-01.jpg` até `-03.jpg`, `posers/base-festa-junina-casapark-01.jpg` até `-03.jpg`, `posers/porao-do-rock-nas-ruas-01.jpg` até `-03.jpg`, `posers/visit-brasil-01.jpg` e `-02.jpg` e `posers/sid-01.jpg`: fotos da Posers. Padrão de nome: `posers/<evento>-NN.jpg`.
 
 Todas são JPG de verdade e estão otimizadas: as fotos principais têm até cerca de 170 KB, e as da Posers têm no máximo 1200px no lado maior. Antes, algumas eram PNG com extensão `.jpg` e chegavam a 2 MB. Novas imagens devem seguir o mesmo padrão.
 
@@ -81,12 +81,26 @@ Na raiz do projeto também ficam:
 
 1. Receber as fotos e, se houver, os nomes dos eventos da **Fantastic** e da **Entretenimento Go**. Colocar cada registro sob a empresa correta na página de Performance.
 2. Receber fotos específicas para os cards e trabalhos de **Teatro** e **Circo**, caso a usuária queira substituir as imagens ou espaços reservados atuais.
-3. Fotos HEIC (iPhone) e DNG (RAW) podem ser convertidas no próprio Windows: PowerShell + `PresentationCore` (`BitmapDecoder`), redimensionando para no máximo 1200px e salvando como JPEG com qualidade 82. Aplicar a orientação EXIF (inclusive 5 e 7, que são espelhadas). A pasta `img/` guarda os originais enviados.
+3. Fotos HEIC (iPhone) e DNG (RAW) podem ser convertidas no próprio Windows: PowerShell + `PresentationCore` (`BitmapDecoder`), redimensionando para no máximo 1200px e salvando como JPEG com qualidade 82. Aplicar a orientação EXIF (inclusive 5 e 7, que são espelhadas). A pasta `img/` guarda os originais enviados e **nunca vai pro GitHub** (está no `.gitignore`), a pedido da usuária: ela não quer os originais públicos.
 4. Seguir a ordem de envio das fotos e confirmar o evento de cada lote.
 5. Ao receber novas imagens, sempre ajustar o enquadramento para valorizar a pessoa/ação e manter a grade visual consistente. Usar texto alternativo descritivo e otimizar imagens grandes quando possível.
 6. Confirmar com a usuária os nomes de eventos quando eles não puderem ser identificados com segurança; evitar criar créditos, funções, datas ou contexto não fornecidos.
 7. **Publicação:** o repositório é `https://github.com/waalmeireles/artistico.git` e o endereço final será `https://waalmeireles.github.io/artistico/`. `og:url` e `og:image` já apontam para esse endereço. Publicado em 2026-10-23: GitHub Pages ativo (branch `main`, pasta raiz). Para atualizar, basta commit + `git push`; o site atualiza em 1–2 minutos.
 8. **Melhorias planejadas:** ampliar fotos ao clicar (lightbox), abas Teatro/Circo/Performance em `linguagem.html`, separar o CSS/JS repetido em arquivos compartilhados, ficha dos trabalhos (ano, função, direção, local), vídeos e currículo em PDF.
+
+## Onde paramos (23/10/2026)
+
+- O site está no ar em `https://waalmeireles.github.io/artistico/`, com a Posers (24 fotos, 9 eventos), as molduras temáticas e as animações dos títulos.
+- Aguardando a usuária mandar mais lotes de fotos. Os próximos também serão da **Posers**, salvo aviso contrário.
+- Como cada lote chega: algumas fotos coladas na conversa e outras na pasta `img/`. Quando ela disser "coloque essa no meio", a foto da pasta `img/` fica entre as coladas. Identificar o arquivo novo da pasta pela data de modificação.
+- Converter com `ferramentas/converter-fotos.ps1` (aceita JPG, HEIC e DNG, aplica a rotação e redimensiona para 1200px). Depois, adicionar os itens em `linguagem.html`, com `imagem`, `titulo` (nome do evento) e `descricao`, e conferir a página.
+
+## Como trabalhar com a usuária
+
+- **Sempre perguntar antes de publicar** (`git push`), mesmo que a mudança seja pequena. Commits locais podem ser feitos.
+- **A pasta `img/` nunca vai pro GitHub.** O repositório é público.
+- Ela prefere visuais expressivos, mas não exagerados: o disco bordô no título foi rejeitado, e a linha circulando o nome foi aprovada. Mostrar uma versão simples primeiro.
+- Para ela ver localmente, abrir `file:///C:/Users/wal_m/portfolio-artistico/...` no navegador. O site publicado só muda depois do push.
 
 ## Dados confirmados da artista
 

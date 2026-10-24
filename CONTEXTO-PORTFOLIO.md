@@ -83,7 +83,7 @@ Na raiz do projeto também ficam:
 4. A usuária planeja remover algumas fotos da Posers depois, para equilibrar a quantidade de imagens entre as empresas. Não remover fotos sem ela indicar quais.
 5. Ao receber novas imagens, sempre ajustar o enquadramento para valorizar a pessoa/ação e manter a grade visual consistente. Usar texto alternativo descritivo e otimizar imagens grandes quando possível.
 6. Confirmar com a usuária os nomes de eventos quando eles não puderem ser identificados com segurança; evitar criar créditos, funções, datas ou contexto não fornecidos.
-7. **Publicação:** o repositório é `https://github.com/waalmeireles/artistico.git` e o endereço final será `https://waalmeireles.github.io/artistico/`. `og:url` e `og:image` já apontam para esse endereço. Falta `git init`, primeiro push e ativar o GitHub Pages (branch `main`, pasta raiz).
+7. **Publicação:** o repositório é `https://github.com/waalmeireles/artistico.git` e o endereço final será `https://waalmeireles.github.io/artistico/`. `og:url` e `og:image` já apontam para esse endereço. Publicado em 2026-10-23: GitHub Pages ativo (branch `main`, pasta raiz). Para atualizar, basta commit + `git push`; o site atualiza em 1–2 minutos.
 8. **Melhorias planejadas:** ampliar fotos ao clicar (lightbox), abas Teatro/Circo/Performance em `linguagem.html`, separar o CSS/JS repetido em arquivos compartilhados, ficha dos trabalhos (ano, função, direção, local), vídeos e currículo em PDF.
 
 ## Dados confirmados da artista

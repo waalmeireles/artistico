@@ -109,9 +109,11 @@
     .tab-count { font: 400 .85rem/1 var(--marker); opacity: .85; }
     /* Com muitas abas (como as peças de Teatro e os espetáculos de Circo), elas ficam menores para caber lado a lado */
     .tabs:has(.tab:nth-child(4)) { gap: 6px; padding-inline: 18px; }
-    .tabs:has(.tab:nth-child(4)) .tab { padding: 10px 16px 10px 14px; }
+    .tabs:has(.tab:nth-child(4)) .tab { padding-top: 10px; padding-inline: 14px 16px; }
     .tabs:has(.tab:nth-child(4)) .tab-name { font-size: 1.12rem; }
     .tabs:has(.tab:nth-child(4)) .tab-count { font-size: .72rem; }
+    /* As abas fechadas descem 9px e ficam meio escondidas atrás do painel; o espaço extra embaixo mantém o texto todo visível */
+    .tabs .tab:not([aria-selected="true"]) { padding-bottom: 22px; }
     .tab[aria-selected="true"] { z-index: 2; color: var(--ink); background: var(--panel); transform: none; padding-bottom: 16px; }
     .tab[aria-selected="true"]::before { border-color: rgba(23,21,21,.3); }
     .tab[aria-selected="true"] .tab-count { color: var(--burgundy); opacity: 1; }
@@ -483,7 +485,23 @@
               }
             ]
           },
-          { nome: "Entre tesouros e trapézios", itens: [] }
+          {
+            nome: "Entre tesouros e trapézios",
+            itens: [
+              {
+                imagem: "assets/circo/entre-tesouros-e-trapezios-01.jpg",
+                descricao: "Walquíria Meireles de lenço vermelho na cabeça, blusa branca e saia preta amarrada, abraçada ao elenco de palhaços de nariz vermelho no palco"
+              },
+              {
+                imagem: "assets/circo/entre-tesouros-e-trapezios-02.jpg",
+                descricao: "Walquíria Meireles sorrindo de boca aberta, de lenço vermelho e colar de medalhão, entre dois artistas de camiseta listrada, avental preto e lenço vermelho no pescoço"
+              },
+              {
+                imagem: "assets/circo/entre-tesouros-e-trapezios-03.jpg",
+                descricao: "Walquíria Meireles fazendo selfie no espelho do camarim, de lenço vermelho, batom vermelho e blusa branca, segurando um facão cenográfico junto à cabeça"
+              }
+            ]
+          }
         ]
       },
       performance: {

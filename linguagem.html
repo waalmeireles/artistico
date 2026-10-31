@@ -89,6 +89,11 @@
     .tab:hover { transform: translateY(3px) rotate(calc(var(--tilt) / 2)); }
     .tab-name { font: 400 clamp(1.25rem, 3vw, 1.7rem)/1 var(--display); white-space: nowrap; }
     .tab-count { font: 400 .85rem/1 var(--marker); opacity: .85; }
+    /* Com muitas abas (como as peças de Teatro), elas ficam menores para caber lado a lado */
+    .tabs:has(.tab:nth-child(5)) { gap: 6px; padding-inline: 18px; }
+    .tabs:has(.tab:nth-child(5)) .tab { padding: 10px 16px 10px 14px; }
+    .tabs:has(.tab:nth-child(5)) .tab-name { font-size: 1.12rem; }
+    .tabs:has(.tab:nth-child(5)) .tab-count { font-size: .72rem; }
     .tab[aria-selected="true"] { z-index: 2; color: var(--ink); background: var(--panel); transform: none; padding-bottom: 16px; }
     .tab[aria-selected="true"]::before { border-color: rgba(23,21,21,.3); }
     .tab[aria-selected="true"] .tab-count { color: var(--burgundy); opacity: 1; }
@@ -99,6 +104,9 @@
       border: var(--line); border-radius: 8px 40px 30px 44px; box-shadow: 8px 10px 0 var(--terracotta);
     }
     .has-tabs .company-heading { display: none; }
+    .tab-empty { padding: 56px 16px 60px; text-align: center; }
+    .tab-empty-name { margin: 0; font: 400 clamp(2rem, 5vw, 3rem)/1.05 var(--display); text-shadow: 3px 3px 0 var(--terracotta); }
+    .tab-empty-note { margin: 12px 0 0; color: var(--burgundy); font: 700 1.5rem/1.2 var(--hand); }
     .has-tabs .company-section.is-visible .work-card { animation: card-in .45s ease backwards; }
     .has-tabs .company-section.is-visible .work-card:nth-child(3n+2) { animation-delay: .06s; }
     .has-tabs .company-section.is-visible .work-card:nth-child(3n) { animation-delay: .12s; }
@@ -234,17 +242,39 @@
     </div>
   </footer>
   <script>
-    // Adicione ou edite os trabalhos e os arquivos de imagem das empresas aqui.
+    // Adicione ou edite os trabalhos e os arquivos de imagem aqui.
+    // Linguagens com "abas" mostram uma aba por empresa ou peça; "rotuloAbas" diz o que cada aba é.
     const trabalhosPorLinguagem = {
       teatro: {
         nome: "Teatro",
         descricao: "Trabalhos de teatro na trajetória de Walquíria Meireles.",
-        itens: [
-          { titulo: "A sessão" },
-          { titulo: "O direito ao grito" },
-          { titulo: "Sarau Circo Íntimo" },
-          { titulo: "Sarau Espaço Cultural" },
-          { titulo: "Condomínio Brasília" }
+        rotuloAbas: "Peças",
+        abas: [
+          {
+            nome: "A sessão",
+            // "titulo" é a personagem de Walquíria na peça.
+            itens: [
+              {
+                imagem: "assets/teatro/a-sessao-01.jpg",
+                titulo: "A Hippie",
+                descricao: "Walquíria Meireles em cena como a hippie, de regata escura e calça azul tingida, erguendo um cartão desenhado diante da plateia"
+              },
+              {
+                imagem: "assets/teatro/a-sessao-02.jpg",
+                titulo: "A Hippie",
+                descricao: "Walquíria Meireles como a hippie, atrás de uma mesa, frente a frente com uma atriz de vestido florido, com a plateia sentada ao fundo"
+              },
+              {
+                imagem: "assets/teatro/a-sessao-03.jpg",
+                titulo: "A Hippie",
+                descricao: "Walquíria Meireles como a hippie, em pé junto à mesa com um cartaz de desenhos, ao lado de uma atriz sentada de vestido florido segurando uma taça"
+              }
+            ]
+          },
+          { nome: "O direito ao grito", itens: [] },
+          { nome: "Sarau Circo Íntimo", itens: [] },
+          { nome: "Sarau Espaço Cultural", itens: [] },
+          { nome: "Condomínio Brasília", itens: [] }
         ]
       },
       circo: {
@@ -260,7 +290,8 @@
       performance: {
         nome: "Performance",
         descricao: "Trabalhos de performance organizados por empresa.",
-        empresas: [
+        rotuloAbas: "Empresas",
+        abas: [
           {
             nome: "Posers",
             // Fotos na ordem enviada. "titulo" é o nome do evento.
@@ -546,22 +577,21 @@
       document.title = `${linguagem.nome} | Walquíria Meireles`;
       pageTitle.textContent = linguagem.nome;
       document.querySelector("#page-description").textContent = linguagem.descricao;
-      // Empresas sem nenhum registro ficam ocultas até receberem fotos ou títulos.
-      const grupos = (linguagem.empresas
-        ? linguagem.empresas.map((empresa) => ({ nome: empresa.nome, itens: empresa.itens }))
-        : [{ nome: linguagem.nome, itens: linguagem.itens }]
-      ).filter((grupo) => grupo.itens.length);
+      // Toda aba aparece, mesmo ainda sem fotos; sem abas, a lista só aparece se tiver algum trabalho.
+      const grupos = linguagem.abas
+        ? linguagem.abas.map((aba) => ({ nome: aba.nome, itens: aba.itens }))
+        : [{ nome: linguagem.nome, itens: linguagem.itens }].filter((grupo) => grupo.itens.length);
       const plural = (total, singular, varios) => `${total} ${total === 1 ? singular : varios}`;
       // "Go! Entretenimento" -> "go-entretenimento", usado no endereço (#fantastic) de cada aba.
       const slug = (text) => text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
-      // Com empresas, a página mostra uma aba por empresa, como divisórias de fichário; cada aba abre só os trabalhos dela.
+      // Com abas, a página mostra uma aba por empresa ou peça, como divisórias de fichário; cada aba abre só os trabalhos dela.
       let tabList;
-      if (linguagem.empresas) {
+      if (linguagem.abas) {
         tabList = document.createElement("div");
         tabList.className = "tabs";
         tabList.setAttribute("role", "tablist");
-        tabList.setAttribute("aria-label", "Empresas");
+        tabList.setAttribute("aria-label", linguagem.rotuloAbas);
         grid.before(tabList);
         grid.classList.add("has-tabs");
       }
@@ -574,7 +604,7 @@
         const resumo = [
           comFoto.length && plural(comFoto.length, "foto", "fotos"),
           semFoto.length && plural(semFoto.length, "trabalho", "trabalhos")
-        ].filter(Boolean).join(" · ");
+        ].filter(Boolean).join(" · ") || "fotos em breve";
 
         if (tabList) {
           companySection.id = slug(grupo.nome);
@@ -599,8 +629,8 @@
           tabList.append(tab);
         }
 
-        // Sem empresas, o título do grupo repetiria o nome da linguagem.
-        if (linguagem.empresas) {
+        // Sem abas, o título do grupo repetiria o nome da linguagem.
+        if (linguagem.abas) {
           const companyHeading = document.createElement("header");
           companyHeading.className = "company-heading";
           const companyTitle = document.createElement("h2");
@@ -655,6 +685,20 @@
             list.append(item);
           });
           companySection.append(list);
+        }
+
+        // Aba ainda sem nenhum registro: mostra o nome da peça no painel.
+        if (!grupo.itens.length) {
+          const empty = document.createElement("div");
+          empty.className = "tab-empty";
+          const emptyName = document.createElement("p");
+          emptyName.className = "tab-empty-name";
+          emptyName.textContent = grupo.nome;
+          const emptyNote = document.createElement("p");
+          emptyNote.className = "tab-empty-note";
+          emptyNote.textContent = "Fotos em breve";
+          empty.append(emptyName, emptyNote);
+          companySection.append(empty);
         }
         grid.append(companySection);
       });

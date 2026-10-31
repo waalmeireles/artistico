@@ -453,8 +453,24 @@
             ]
           },
           {
-            nome: "Entretenimento Go",
-            itens: []
+            nome: "Go! Entretenimento",
+            itens: [
+              {
+                imagem: "assets/go-entretenimento/zebra-festa-infantil-01.jpg",
+                titulo: "Zebra - Festa Infantil",
+                descricao: "Walquíria Meireles caracterizada como zebra, com cabeça de pelúcia listrada, maquiagem de listras pretas no rosto e luva preta estendida para a frente, diante de uma cortina"
+              },
+              {
+                imagem: "assets/go-entretenimento/zebra-festa-infantil-02.jpg",
+                titulo: "Zebra - Festa Infantil",
+                descricao: "Walquíria Meireles como zebra, sorrindo entre folhagens, com gola de pelos pretos e brancos e gravata-borboleta"
+              },
+              {
+                imagem: "assets/go-entretenimento/zebra-festa-infantil-03.jpg",
+                titulo: "Zebra - Festa Infantil",
+                descricao: "Walquíria Meireles como zebra, entre dois artistas caracterizados como girafa e leão, num jardim arborizado"
+              }
+            ]
           }
         ]
       }
@@ -491,7 +507,7 @@
         : [{ nome: linguagem.nome, itens: linguagem.itens }]
       ).filter((grupo) => grupo.itens.length);
       const plural = (total, singular, varios) => `${total} ${total === 1 ? singular : varios}`;
-      // "Entretenimento Go" -> "entretenimento-go", usado no endereço (#fantastic) de cada aba.
+      // "Go! Entretenimento" -> "go-entretenimento", usado no endereço (#fantastic) de cada aba.
       const slug = (text) => text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
       // Com empresas, a página mostra uma aba por empresa, como divisórias de fichário; cada aba abre só os trabalhos dela.

@@ -510,7 +510,10 @@
     @media (max-width: 680px) {
       html { scroll-padding-top: 70px; }
       .wrap { width: min(100% - 30px, var(--page-width)); }
-      .section { padding: 76px 0; }
+      .section { padding: 56px 0; }
+      .section-heading { margin-bottom: 28px; }
+      .section-heading > p:last-child { font-size: 1rem; line-height: 1.5; }
+      h2 { font-size: clamp(2.1rem, 9vw, 2.6rem); }
       .site-header .nav-wrap { min-height: 66px; }
       .brand { font-size: 1.2rem; }
       .menu-toggle { display: block; position: relative; z-index: 22; }
@@ -539,7 +542,18 @@
       .sticker-two { right: -25px; }
       .hero-note { left: 3%; }
       .about-grid, .making-grid, .contact-grid { grid-template-columns: 1fr; gap: 38px; }
-      .about-photo img { height: 380px; }
+      /* Sobre mim compacto: foto menor e texto mais enxuto */
+      .about { padding: 56px 0 60px; }
+      .about-grid { grid-template-columns: 1fr; gap: 26px; }
+      .about-photo { width: min(62%, 250px); }
+      .about-photo img { height: 270px; }
+      .about-photo::before { inset: 10px -10px -10px 10px; }
+      .about-sticker { width: 70px; height: 70px; left: -16px; font-size: .82rem; }
+      .about-spark { font-size: 1.4rem; }
+      .about-copy { text-align: center; }
+      .about-copy h2 { margin-bottom: 10px; font-size: 2.4rem; }
+      .about-copy p { margin-bottom: 10px; font-size: 1rem; line-height: 1.55; }
+      .about-copy .signature { margin-top: 4px; font-size: 1.7rem; }
       /* Linguagens em triângulo: duas em cima, a terceira centralizada embaixo, todas cabendo numa tela */
       .language-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; }
       .language-card { min-height: 0; padding: 10px 10px 12px; text-align: center; box-shadow: 4px 4px 0 var(--ink); }
@@ -558,9 +572,15 @@
       .training-list li:nth-child(3n+1) { transform: rotate(-1deg); }
       .training-list li:nth-child(3n+2) { background: var(--paper); transform: rotate(.8deg); }
       .training-list li:nth-child(3n) { background: #f6e3c4; }
-      .making-sticker { min-height: 220px; }
-      .making-art { margin-top: 30px; }
-      .making-badge { top: -40px; left: -10px; width: 100px; height: 100px; }
+      /* Produção & criação compacto: quadro menor e texto mais enxuto */
+      .making { padding: 56px 0 60px; }
+      .making-grid { gap: 26px; }
+      .making-art { width: 82%; justify-self: center; margin-top: 22px; }
+      .making-sticker { min-height: 0; padding: 26px 18px; font-size: 1.85rem; box-shadow: 5px 5px 0 var(--ink); }
+      .making-badge { top: -30px; left: -26px; width: 74px; height: 74px; }
+      .making-copy { text-align: center; }
+      .making-copy h2 { margin-bottom: 10px; font-size: 2.2rem; }
+      .making-copy p { margin-bottom: 18px; font-size: 1rem; line-height: 1.55; }
       /* Contato: foto menor no centro e os três canais como selos nos cantos dela */
       .contact-grid { grid-template-columns: 1fr 1fr; gap: 0; }
       .contact-copy, .contact-links { display: contents; }

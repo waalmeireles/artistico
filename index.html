@@ -540,11 +540,24 @@
       .hero-note { left: 3%; }
       .about-grid, .making-grid, .contact-grid { grid-template-columns: 1fr; gap: 38px; }
       .about-photo img { height: 380px; }
-      .language-grid { grid-template-columns: 1fr; gap: 22px; }
-      .language-card { min-height: 0; }
-      .language-card:nth-child(2) { transform: rotate(1deg); }
-      .language-art { min-height: 160px; }
-      .training-list { grid-template-columns: 1fr; }
+      /* Linguagens em triângulo: duas em cima, a terceira centralizada embaixo, todas cabendo numa tela */
+      .language-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; }
+      .language-card { min-height: 0; padding: 10px 10px 12px; text-align: center; box-shadow: 4px 4px 0 var(--ink); }
+      .language-card:nth-child(1) { transform: rotate(-2deg); }
+      .language-card:nth-child(2) { transform: translateY(10px) rotate(2deg); }
+      .language-card:nth-child(3) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 7px); transform: rotate(-1deg); }
+      .language-art { min-height: 0; margin-bottom: 8px; }
+      .language-card h3 { margin-bottom: 2px; font-size: 1.3rem; }
+      .language-card p { display: none; }
+      .language-card .language-cta { margin-top: 4px; font-size: .78rem; }
+      .card-number { right: 8px; top: 6px; z-index: 3; font-size: .8rem; }
+      /* Formação como etiquetas que se encaixam lado a lado, em vez de uma lista comprida */
+      .training-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px 8px; }
+      .training-list li { min-height: 0; gap: 6px; padding: 7px 11px; font-size: .88rem; line-height: 1.25; box-shadow: 2px 2px 0 var(--ink); border-radius: 14px 20px 12px 18px; }
+      .training-list li::before { font-size: .95rem; }
+      .training-list li:nth-child(3n+1) { transform: rotate(-1deg); }
+      .training-list li:nth-child(3n+2) { background: var(--paper); transform: rotate(.8deg); }
+      .training-list li:nth-child(3n) { background: #f6e3c4; }
       .making-sticker { min-height: 220px; }
       .making-art { margin-top: 30px; }
       .making-badge { top: -40px; left: -10px; width: 100px; height: 100px; }

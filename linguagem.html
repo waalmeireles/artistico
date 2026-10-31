@@ -250,30 +250,30 @@
         descricao: "Trabalhos de teatro na trajetória de Walquíria Meireles.",
         rotuloAbas: "Peças",
         abas: [
+          { nome: "A sessão", itens: [] },
+          { nome: "O direito ao grito", itens: [] },
+          { nome: "Sarau Circo Íntimo", itens: [] },
           {
-            nome: "A sessão",
+            nome: "Sarau Espaço Cultural",
             // "titulo" é a personagem de Walquíria na peça.
             itens: [
               {
-                imagem: "assets/teatro/a-sessao-01.jpg",
+                imagem: "assets/teatro/sarau-espaco-cultural-01.jpg",
                 titulo: "A Hippie",
                 descricao: "Walquíria Meireles em cena como a hippie, de regata escura e calça azul tingida, erguendo um cartão desenhado diante da plateia"
               },
               {
-                imagem: "assets/teatro/a-sessao-02.jpg",
+                imagem: "assets/teatro/sarau-espaco-cultural-02.jpg",
                 titulo: "A Hippie",
                 descricao: "Walquíria Meireles como a hippie, atrás de uma mesa, frente a frente com uma atriz de vestido florido, com a plateia sentada ao fundo"
               },
               {
-                imagem: "assets/teatro/a-sessao-03.jpg",
+                imagem: "assets/teatro/sarau-espaco-cultural-03.jpg",
                 titulo: "A Hippie",
                 descricao: "Walquíria Meireles como a hippie, em pé junto à mesa com um cartaz de desenhos, ao lado de uma atriz sentada de vestido florido segurando uma taça"
               }
             ]
           },
-          { nome: "O direito ao grito", itens: [] },
-          { nome: "Sarau Circo Íntimo", itens: [] },
-          { nome: "Sarau Espaço Cultural", itens: [] },
           { nome: "Condomínio Brasília", itens: [] }
         ]
       },
@@ -740,9 +740,10 @@
         next.click();
       });
     });
-    // Um link como linguagem.html?tipo=performance#fantastic já abre a aba da Fantastic; sem isso, abre a primeira.
+    // Um link como linguagem.html?tipo=performance#fantastic já abre a aba da Fantastic; sem isso, abre a primeira aba que tem fotos.
     if (tabs.length && !(location.hash && openCompany(decodeURIComponent(location.hash.slice(1))))) {
-      openCompany(tabs[0].dataset.empresa);
+      const comFotos = tabs.find((tab) => document.getElementById(tab.dataset.empresa).querySelector(".work-grid"));
+      openCompany((comFotos || tabs[0]).dataset.empresa);
     }
 
     document.querySelector("#current-year").textContent = new Date().getFullYear();

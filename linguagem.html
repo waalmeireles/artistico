@@ -123,7 +123,7 @@
     .tab[aria-selected="true"]::before { border-color: rgba(23,21,21,.3); }
     .tab[aria-selected="true"] .tab-count { color: var(--burgundy); opacity: 1; }
     /* Estrelinha girando na aba aberta */
-    .tab[aria-selected="true"]::after { content: "✳"; position: absolute; top: -14px; right: -10px; color: var(--terracotta); font: 400 1.6rem/1 var(--marker); text-shadow: 1px 1px 0 var(--ink); animation: spin 6s linear infinite; }
+    .tab[aria-selected="true"]::after { content: "✳\FE0E"; position: absolute; top: -14px; right: -10px; color: var(--terracotta); font: 400 1.6rem/1 var(--marker); text-shadow: 1px 1px 0 var(--ink); animation: spin 6s linear infinite; }
     .has-tabs {
       position: relative; padding: 34px 28px 30px; background: var(--panel);
       border: var(--line); border-radius: 8px 40px 30px 44px; box-shadow: 8px 10px 0 var(--terracotta);
@@ -145,7 +145,7 @@
     /* Linha que se desenha e "puxa" o nome da empresa */
     .company-heading { position: relative; display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 22px; padding-bottom: 14px; }
     .company-line { position: absolute; left: 0; bottom: 0; width: 0; height: 3px; background: var(--ink); border-radius: 3px; }
-    .company-line::after { content: "✳"; position: absolute; right: -12px; top: -12px; color: var(--terracotta); font: 400 1.5rem/1 var(--marker); text-shadow: 1px 1px 0 var(--ink); animation: spin 6s linear infinite; }
+    .company-line::after { content: "✳\FE0E"; position: absolute; right: -12px; top: -12px; color: var(--terracotta); font: 400 1.5rem/1 var(--marker); text-shadow: 1px 1px 0 var(--ink); animation: spin 6s linear infinite; }
     .company-section.is-visible .company-line { animation: line-pull 1.1s cubic-bezier(.65, 0, .35, 1) forwards; }
     @keyframes line-pull { to { width: 100%; } }
     .company-heading h2 { margin: 0; opacity: 0; font: 400 clamp(2.2rem, 5vw, 3.4rem)/1 var(--display); }
@@ -191,7 +191,7 @@
     .work-grid + .work-list { margin-top: 24px; }
     .work-list li { min-height: 76px; display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: var(--white); border: var(--line); border-radius: 18px 34px 16px 28px; box-shadow: 4px 4px 0 var(--terracotta); font: 600 1.2rem/1.25 var(--body); }
     .work-list li:nth-child(even) { border-radius: 34px 16px 28px 18px; }
-    .work-list li::before { content: "✳"; flex: none; color: var(--burgundy); font: 400 1.3rem/1 var(--marker); }
+    .work-list li::before { content: "✳\FE0E"; flex: none; color: var(--burgundy); font: 400 1.3rem/1 var(--marker); }
     .empty { max-width: 600px; margin: 0 auto; text-align: center; }
     .empty[hidden] { display: none; }
     .empty a { display: inline-block; margin: 8px; }

@@ -73,7 +73,7 @@
       pointer-events: none;
     }
     .section:not(.hero)::after {
-      content: "✳";
+      content: "✳\FE0E";
       position: absolute;
       z-index: 3;
       top: -17px;
@@ -212,7 +212,7 @@
     .ticker { overflow: hidden; padding: 13px 0; color: var(--white); background: var(--burgundy); border-block: var(--line); }
     .ticker-track { display: flex; width: max-content; animation: ticker 26s linear infinite; }
     .ticker-group { display: flex; align-items: center; gap: 34px; padding-right: 34px; white-space: nowrap; font: 400 1.35rem/1 var(--marker); }
-    .ticker-group span::after { content: "✳"; margin-left: 34px; color: var(--moss); }
+    .ticker-group span::after { content: "✳\FE0E"; margin-left: 34px; color: var(--moss); }
     @keyframes ticker { to { transform: translateX(-50%); } }
 
     .about { background: var(--moss); }
@@ -407,7 +407,7 @@
     .training { background: var(--moss); }
     .training-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 0; padding: 0; list-style: none; }
     .training-list li { min-height: 76px; display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--white); border: var(--line); box-shadow: 3px 3px 0 var(--ink); font-weight: 600; }
-    .training-list li::before { content: "✳"; flex: none; color: var(--burgundy); font-size: 1.3rem; }
+    .training-list li::before { content: "✳\FE0E"; flex: none; color: var(--burgundy); font-size: 1.3rem; }
 
     .contact { color: var(--white); background: var(--burgundy); }
     .contact .eyebrow { color: var(--paper); }
@@ -649,7 +649,7 @@
           </div>
           <span class="sticker sticker-one" aria-hidden="true">em<br>cena!</span>
           <span class="sticker sticker-two" aria-hidden="true">arte<br>viva</span>
-          <span class="hero-note">desde 2014 ✳</span>
+          <span class="hero-note">desde 2014 ✳&#xFE0E;</span>
         </div>
       </div>
     </section>
@@ -725,14 +725,14 @@
             <span class="making-text">
               <span class="making-line">A arte</span>
               <span class="making-line">acontece</span>
-              <span class="making-line">por inteiro <span class="making-star">✳</span></span>
+              <span class="making-line">por inteiro <span class="making-star">✳&#xFE0E;</span></span>
             </span>
           </div>
           <div class="making-badge">
             <svg viewBox="0 0 124 124">
               <defs><path id="badge-circle" d="M62,62 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0"></path></defs>
               <circle cx="62" cy="62" r="59" fill="#f4efe6" stroke="#171515" stroke-width="2.5"></circle>
-              <text><textPath href="#badge-circle" textLength="278" lengthAdjust="spacingAndGlyphs">bastidores ✳ produção ✳ criação ✳ cena ✳</textPath></text>
+              <text><textPath href="#badge-circle" textLength="278" lengthAdjust="spacingAndGlyphs">bastidores ✳&#xFE0E; produção ✳&#xFE0E; criação ✳&#xFE0E; cena ✳&#xFE0E;</textPath></text>
               <text x="62" y="73" text-anchor="middle" style="font-size: 30px; fill: #742d3d">✦</text>
             </svg>
           </div>

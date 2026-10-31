@@ -75,6 +75,14 @@
     .mask-tragedy { fill: var(--moss); }
     .title-symbol .mask-line { fill: none; stroke: var(--ink); stroke-width: 3.5; stroke-linecap: round; }
     .title-symbol .mask-mouth { fill: var(--ink); stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
+    /* Peças dos outros símbolos (lona do Circo, holofote da Performance) */
+    .title-symbol .sym { stroke: var(--ink); stroke-width: 3.5; stroke-linejoin: round; }
+    .sym-terracotta { fill: var(--terracotta); }
+    .sym-burgundy { fill: var(--burgundy); }
+    .sym-white { fill: var(--white); }
+    .sym-ink { fill: var(--ink); }
+    .sym-beam { fill: #f6d98b; opacity: .8; }
+    .sym-spark { fill: #f6d98b; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
     @keyframes symbol-in { from { opacity: 0; transform: scale(.4) rotate(-30deg); } }
     @keyframes symbol-swing { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(7deg); } }
     @keyframes letter-wave { 0%, 60%, 100% { transform: translateY(0) rotate(0); } 30% { transform: translateY(-10px) rotate(-4deg); } }
@@ -99,11 +107,11 @@
     .tab:hover { transform: translateY(3px) rotate(calc(var(--tilt) / 2)); }
     .tab-name { font: 400 clamp(1.25rem, 3vw, 1.7rem)/1 var(--display); white-space: nowrap; }
     .tab-count { font: 400 .85rem/1 var(--marker); opacity: .85; }
-    /* Com muitas abas (como as peças de Teatro), elas ficam menores para caber lado a lado */
-    .tabs:has(.tab:nth-child(5)) { gap: 6px; padding-inline: 18px; }
-    .tabs:has(.tab:nth-child(5)) .tab { padding: 10px 16px 10px 14px; }
-    .tabs:has(.tab:nth-child(5)) .tab-name { font-size: 1.12rem; }
-    .tabs:has(.tab:nth-child(5)) .tab-count { font-size: .72rem; }
+    /* Com muitas abas (como as peças de Teatro e os espetáculos de Circo), elas ficam menores para caber lado a lado */
+    .tabs:has(.tab:nth-child(4)) { gap: 6px; padding-inline: 18px; }
+    .tabs:has(.tab:nth-child(4)) .tab { padding: 10px 16px 10px 14px; }
+    .tabs:has(.tab:nth-child(4)) .tab-name { font-size: 1.12rem; }
+    .tabs:has(.tab:nth-child(4)) .tab-count { font-size: .72rem; }
     .tab[aria-selected="true"] { z-index: 2; color: var(--ink); background: var(--panel); transform: none; padding-bottom: 16px; }
     .tab[aria-selected="true"]::before { border-color: rgba(23,21,21,.3); }
     .tab[aria-selected="true"] .tab-count { color: var(--burgundy); opacity: 1; }
@@ -245,6 +253,32 @@
             <path class="mask-line" d="M16 32 Q23 25 30 32 M38 32 Q45 25 52 32"></path>
             <path class="mask-mouth" d="M18 46 Q34 64 50 46 Q34 54 18 46 Z"></path>
           </g>
+        </svg>
+        <!-- Lona de circo listrada com bandeirinha, mostrada só na página de Circo -->
+        <svg class="title-symbol" id="simbolo-circo" viewBox="0 0 120 110" aria-hidden="true" hidden>
+          <path class="mask-line" d="M60 18 V4"></path>
+          <path class="sym sym-terracotta" d="M60 4 L80 9 L60 14 Z"></path>
+          <path class="sym sym-white" d="M20 58 H100 V100 H20 Z"></path>
+          <path class="sym-terracotta" d="M32 58 H44 V100 H32 Z M56 58 H64 V100 H56 Z M76 58 H88 V100 H76 Z"></path>
+          <path class="sym sym-ink" d="M50 100 V80 Q60 68 70 80 V100 Z"></path>
+          <path class="mask-line" d="M20 58 H100 V100 H20 Z"></path>
+          <path class="sym sym-white" d="M60 18 L108 58 H12 Z"></path>
+          <path class="sym-terracotta" d="M60 18 L12 58 H36 Z M60 18 L60 58 H84 Z"></path>
+          <path class="mask-line" d="M60 18 L108 58 H12 Z"></path>
+          <path class="sym sym-burgundy" d="M12 58 Q18 68 24 58 Q30 68 36 58 Q42 68 48 58 Q54 68 60 58 Q66 68 72 58 Q78 68 84 58 Q90 68 96 58 Q102 68 108 58 Z"></path>
+        </svg>
+        <!-- Holofote com facho de luz e brilhos, mostrado só na página de Performance -->
+        <svg class="title-symbol" id="simbolo-performance" viewBox="0 0 120 110" aria-hidden="true" hidden>
+          <path class="sym-beam" d="M62 38 L118 86 L80 108 Z"></path>
+          <path class="sym-spark" d="M96 72 L99 79 L106 82 L99 85 L96 92 L93 85 L86 82 L93 79 Z"></path>
+          <path class="sym-spark" d="M82 92 L84 96 L88 98 L84 100 L82 104 L80 100 L76 98 L80 96 Z"></path>
+          <path class="mask-line" d="M34 52 L24 100 M42 52 L52 100 M16 100 H60"></path>
+          <g transform="rotate(38 40 34)">
+            <path class="sym sym-burgundy" d="M12 20 H56 V48 H12 Z"></path>
+            <path class="sym sym-white" d="M56 18 Q66 34 56 50 Q50 34 56 18 Z"></path>
+            <path class="mask-line" d="M22 20 V48 M32 20 V48"></path>
+          </g>
+          <circle class="sym sym-ink" cx="38" cy="40" r="5"></circle>
         </svg>
       </div>
       <p id="page-description">Um recorte dos trabalhos de Walquíria Meireles.</p>
@@ -395,16 +429,19 @@
       circo: {
         nome: "Circo",
         descricao: "Trabalhos de circo na trajetória de Walquíria Meireles.",
-        itens: [
-          { titulo: "A mostra circense" },
-          { titulo: "Arte do dia a dia" },
-          { titulo: "Amostra-dos" },
-          { titulo: "Entre tesouros e trapézios" }
+        rotuloAbas: "Espetáculos",
+        simbolo: "circo",
+        abas: [
+          { nome: "A mostra circense", itens: [] },
+          { nome: "Arte do dia a dia", itens: [] },
+          { nome: "Amostra-dos", itens: [] },
+          { nome: "Entre tesouros e trapézios", itens: [] }
         ]
       },
       performance: {
         nome: "Performance",
         descricao: "Trabalhos de performance organizados por empresa.",
+        simbolo: "performance",
         rotuloAbas: "Empresas",
         abas: [
           {

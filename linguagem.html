@@ -69,8 +69,24 @@
     @keyframes letter-wave { 0%, 60%, 100% { transform: translateY(0) rotate(0); } 30% { transform: translateY(-10px) rotate(-4deg); } }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .company-section { margin-top: 52px; }
+    /* Pastas das empresas: cada uma abre só os trabalhos daquela empresa */
+    .folders { display: flex; flex-wrap: wrap; justify-content: center; gap: 34px 28px; margin: 0 0 56px; padding-top: 18px; }
+    .folder { position: relative; width: min(100%, 300px); padding: 12px 12px 16px; color: var(--ink); background: var(--white); border: var(--line); border-radius: 0 22px 22px 22px; box-shadow: 6px 7px 0 var(--terracotta); font: inherit; text-align: left; cursor: pointer; transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease; }
+    /* Aba da pasta */
+    .folder::before { content: ""; position: absolute; left: -2px; top: -20px; width: 44%; height: 20px; background: inherit; border: var(--line); border-bottom: 0; border-radius: 14px 18px 0 0; }
+    .folder:hover { transform: translateY(-5px) rotate(-1deg); box-shadow: 8px 12px 0 var(--terracotta); }
+    .folder[aria-expanded="true"] { color: var(--white); background: var(--burgundy); box-shadow: 6px 7px 0 var(--ink); }
+    .folder-cover { display: block; aspect-ratio: 4 / 3; overflow: hidden; border: var(--line); border-radius: 12px 26px 12px 20px; background: linear-gradient(145deg, var(--moss), var(--terracotta)); }
+    .folder-cover img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+    .folder-name { display: block; margin-top: 12px; font: 400 clamp(1.6rem, 4vw, 2rem)/1.05 var(--display); }
+    .folder-count { display: block; margin-top: 6px; color: var(--burgundy); font: 400 1rem/1.2 var(--marker); }
+    .folder[aria-expanded="true"] .folder-count { color: var(--paper); }
+    .folders-hint { margin: -30px 0 40px; color: var(--burgundy); font: 700 1.35rem/1.2 var(--hand); text-align: center; }
+    .folders-hint[hidden] { display: none; }
+    .company-section { margin-top: 52px; scroll-margin-top: 96px; }
     .company-section:first-child { margin-top: 0; }
+    .company-section[hidden] { display: none; }
+    .has-folders .company-section { margin-top: 0; }
     /* Linha que se desenha e "puxa" o nome da empresa */
     .company-heading { position: relative; display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 22px; padding-bottom: 14px; }
     .company-line { position: absolute; left: 0; bottom: 0; width: 0; height: 3px; background: var(--ink); border-radius: 3px; }
@@ -134,7 +150,7 @@
     @keyframes shine-sweep { to { left: 135%; } }
     .custom-cursor { display: none; }
     @media (hover: hover) and (pointer: fine) {
-      body.has-custom-cursor, body.has-custom-cursor a { cursor: none; }
+      body.has-custom-cursor, body.has-custom-cursor a, body.has-custom-cursor .folder { cursor: none; }
       .custom-cursor { display: grid; position: fixed; z-index: 10; top: 0; left: 0; width: 38px; height: 38px; place-items: center; pointer-events: none; opacity: 0; border: 2px solid var(--terracotta); border-radius: 50%; background: rgba(244,239,230,.22); box-shadow: 0 0 12px rgba(198,106,74,.7), inset 0 0 10px rgba(255,253,247,.6); transform: translate3d(-100px,-100px,0) translate(-50%,-50%); transition: width .2s ease, height .2s ease, background-color .2s ease, box-shadow .2s ease, opacity .15s ease; }
       .custom-cursor.is-visible { opacity: 1; }
       .custom-cursor.is-hovering { width: 54px; height: 54px; background: rgba(120,132,90,.24); box-shadow: 0 0 22px rgba(255,253,247,.8), 0 0 36px rgba(198,106,74,.6); }
@@ -147,6 +163,10 @@
       main { padding: 55px 0 70px; }
       .work-grid { grid-template-columns: 1fr; gap: 20px; }
       .company-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
+      .folders { gap: 34px 16px; }
+      .folder { width: calc(50% - 8px); padding: 8px 8px 12px; }
+      .folder-name { font-size: 1.3rem; }
+      .folder-count { font-size: .85rem; }
       .footer { align-items: flex-start; flex-direction: column; }
       .brand { font-size: 1.05rem; }
       .back-link { font-size: .85rem; }
@@ -435,12 +455,61 @@
         : [{ nome: linguagem.nome, itens: linguagem.itens }]
       ).filter((grupo) => grupo.itens.length);
       const plural = (total, singular, varios) => `${total} ${total === 1 ? singular : varios}`;
+      // "Entretenimento Go" -> "entretenimento-go", usado no endereço (#fantastic) de cada pasta.
+      const slug = (text) => text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+      // Com empresas, a página mostra uma pasta por empresa; clicar abre só os trabalhos dela.
+      let folderNav;
+      let folderHint;
+      if (linguagem.empresas) {
+        folderNav = document.createElement("nav");
+        folderNav.className = "folders";
+        folderNav.setAttribute("aria-label", "Empresas");
+        folderHint = document.createElement("p");
+        folderHint.className = "folders-hint";
+        folderHint.textContent = "Escolha uma pasta para ver os trabalhos";
+        grid.before(folderNav, folderHint);
+        grid.classList.add("has-folders");
+      }
 
       grupos.forEach((grupo) => {
         const comFoto = grupo.itens.filter((trabalho) => trabalho.imagem);
         const semFoto = grupo.itens.filter((trabalho) => !trabalho.imagem);
         const companySection = document.createElement("section");
         companySection.className = "company-section";
+        const resumo = [
+          comFoto.length && plural(comFoto.length, "foto", "fotos"),
+          semFoto.length && plural(semFoto.length, "trabalho", "trabalhos")
+        ].filter(Boolean).join(" · ");
+
+        if (folderNav) {
+          companySection.id = slug(grupo.nome);
+          companySection.hidden = true;
+          const folder = document.createElement("button");
+          folder.type = "button";
+          folder.className = "folder";
+          folder.dataset.empresa = companySection.id;
+          folder.setAttribute("aria-expanded", "false");
+          folder.setAttribute("aria-controls", companySection.id);
+          if (comFoto.length) {
+            const cover = document.createElement("span");
+            cover.className = "folder-cover";
+            const coverImage = document.createElement("img");
+            coverImage.src = comFoto[0].imagem;
+            coverImage.alt = "";
+            coverImage.decoding = "async";
+            cover.append(coverImage);
+            folder.append(cover);
+          }
+          const folderName = document.createElement("span");
+          folderName.className = "folder-name";
+          folderName.textContent = grupo.nome;
+          const folderCount = document.createElement("span");
+          folderCount.className = "folder-count";
+          folderCount.textContent = resumo;
+          folder.append(folderName, folderCount);
+          folderNav.append(folder);
+        }
 
         // Sem empresas, o título do grupo repetiria o nome da linguagem.
         if (linguagem.empresas) {
@@ -452,10 +521,7 @@
           companyLine.className = "company-line";
           companyLine.setAttribute("aria-hidden", "true");
           const count = document.createElement("p");
-          count.textContent = [
-            comFoto.length && plural(comFoto.length, "foto", "fotos"),
-            semFoto.length && plural(semFoto.length, "trabalho", "trabalhos")
-          ].filter(Boolean).join(" · ");
+          count.textContent = resumo;
           companyHeading.append(companyTitle, count, companyLine);
           companySection.append(companyHeading);
         }
@@ -510,23 +576,29 @@
     }
     splitLetters(pageTitle, pageTitle.textContent);
 
-    // A linha de cada empresa se desenha quando o cabeçalho entra na tela
-    // (observa o cabeçalho, não a seção, porque seções com muitas fotos são altas demais).
-    const companyHeadings = document.querySelectorAll(".company-heading");
-    const showSection = (heading) => heading.closest(".company-section").classList.add("is-visible");
-    if ("IntersectionObserver" in window) {
-      const headingObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            showSection(entry.target);
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.6 });
-      companyHeadings.forEach((heading) => headingObserver.observe(heading));
-    } else {
-      companyHeadings.forEach(showSection);
-    }
+    // Abre a pasta de uma empresa: mostra só a seção dela e redesenha a linha do título.
+    const folders = document.querySelectorAll(".folder");
+    const openCompany = (id, scroll) => {
+      const section = document.getElementById(id);
+      if (!section || !section.classList.contains("company-section")) return;
+      document.querySelectorAll(".company-section").forEach((other) => {
+        other.hidden = other !== section;
+        other.classList.remove("is-visible");
+      });
+      folders.forEach((folder) => folder.setAttribute("aria-expanded", String(folder.dataset.empresa === id)));
+      document.querySelector(".folders-hint").hidden = true;
+      void section.offsetWidth; // reinicia a animação ao reabrir a mesma empresa
+      section.classList.add("is-visible");
+      if (scroll) section.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    folders.forEach((folder) => {
+      folder.addEventListener("click", () => {
+        history.replaceState(null, "", `#${folder.dataset.empresa}`);
+        openCompany(folder.dataset.empresa, true);
+      });
+    });
+    // Um link como linguagem.html?tipo=performance#fantastic já abre a pasta da Fantastic.
+    if (folders.length && location.hash) openCompany(decodeURIComponent(location.hash.slice(1)), true);
 
     document.querySelector("#current-year").textContent = new Date().getFullYear();
     document.querySelectorAll("a").forEach((link) => link.classList.add("shine-target"));
@@ -539,14 +611,14 @@
         customCursor.classList.add("is-visible");
       });
       document.addEventListener("pointerover", (event) => {
-        if (event.target instanceof Element && event.target.closest("a, .work-card")) {
+        if (event.target instanceof Element && event.target.closest("a, .work-card, .folder")) {
           customCursor.classList.add("is-hovering");
         }
       });
       document.addEventListener("pointerout", (event) => {
         if (!(event.relatedTarget instanceof Element)) {
           customCursor.classList.remove("is-visible", "is-hovering");
-        } else if (!event.relatedTarget.closest("a, .work-card")) {
+        } else if (!event.relatedTarget.closest("a, .work-card, .folder")) {
           customCursor.classList.remove("is-hovering");
         }
       });

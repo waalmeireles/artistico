@@ -113,6 +113,10 @@
     .tabs:has(.tab:nth-child(4)) .tab { padding-top: 10px; padding-inline: 14px 16px; }
     .tabs:has(.tab:nth-child(4)) .tab-name { font-size: 1.12rem; }
     .tabs:has(.tab:nth-child(4)) .tab-count { font-size: .72rem; }
+    /* Com 6 ou mais abas (Teatro), ficam ainda mais compactas para caber numa fileira só */
+    .tabs:has(.tab:nth-child(6)) { gap: 4px; padding-inline: 12px; }
+    .tabs:has(.tab:nth-child(6)) .tab { padding-inline: 11px 12px; }
+    .tabs:has(.tab:nth-child(6)) .tab-name { font-size: 1rem; }
     /* As abas fechadas descem 9px e ficam meio escondidas atrás do painel; o espaço extra embaixo mantém o texto todo visível */
     .tabs .tab:not([aria-selected="true"]) { padding-bottom: 22px; }
     .tab[aria-selected="true"] { z-index: 2; color: var(--ink); background: var(--panel); transform: none; padding-bottom: 16px; }
@@ -125,6 +129,7 @@
       border: var(--line); border-radius: 8px 40px 30px 44px; box-shadow: 8px 10px 0 var(--terracotta);
     }
     .has-tabs .company-heading { display: none; }
+    .tab-about { max-width: 760px; margin: 0 auto 28px; padding: 14px 20px; background: var(--white); border: 2px dashed var(--terracotta); border-radius: 18px 30px 16px 26px; font-size: 1.08rem; text-align: center; }
     .tab-empty { padding: 56px 16px 60px; text-align: center; }
     .tab-empty-name { margin: 0; font: 400 clamp(2rem, 5vw, 3rem)/1.05 var(--display); text-shadow: 3px 3px 0 var(--terracotta); }
     .tab-empty-note { margin: 12px 0 0; color: var(--burgundy); font: 700 1.5rem/1.2 var(--hand); }
@@ -426,6 +431,12 @@
                 descricao: "Walquíria Meireles como Kyara, sorrindo de short jeans, enquanto a atriz de saia preta filma com o celular um ator de gorro colorido que abre uma caixinha"
               }
             ]
+          },
+          {
+            nome: "Encenação realística",
+            // "sobre" aparece em destaque no topo do painel, explicando o trabalho.
+            sobre: "Atuação em simulações realísticas para faculdades de medicina e da área da saúde: interpreto pacientes e situações clínicas para que os alunos treinem o atendimento como se fosse real.",
+            itens: []
           }
         ]
       },
@@ -800,7 +811,7 @@
       document.querySelector("#page-description").textContent = linguagem.descricao;
       // Toda aba aparece, mesmo ainda sem fotos; sem abas, a lista só aparece se tiver algum trabalho.
       const grupos = linguagem.abas
-        ? linguagem.abas.map((aba) => ({ nome: aba.nome, itens: aba.itens }))
+        ? linguagem.abas.map((aba) => ({ nome: aba.nome, sobre: aba.sobre, itens: aba.itens }))
         : [{ nome: linguagem.nome, itens: linguagem.itens }].filter((grupo) => grupo.itens.length);
       const plural = (total, singular, varios) => `${total} ${total === 1 ? singular : varios}`;
       // "Go! Entretenimento" -> "go-entretenimento", usado no endereço (#fantastic) de cada aba.
@@ -863,6 +874,14 @@
           count.textContent = resumo;
           companyHeading.append(companyTitle, count, companyLine);
           companySection.append(companyHeading);
+        }
+
+        // Texto de apresentação da aba (ex.: o que é a Encenação realística).
+        if (grupo.sobre) {
+          const about = document.createElement("p");
+          about.className = "tab-about";
+          about.textContent = grupo.sobre;
+          companySection.append(about);
         }
 
         if (comFoto.length) {
@@ -942,6 +961,8 @@
         const selected = tab.dataset.empresa === id;
         tab.setAttribute("aria-selected", String(selected));
         tab.tabIndex = selected ? 0 : -1;
+        // No celular a fileira de abas rola para o lado: traz a aba aberta para a vista.
+        if (selected) tab.parentElement.scrollLeft = tab.offsetLeft - 16;
       });
       void section.offsetWidth; // reinicia a entrada das fotos ao trocar de aba
       section.classList.add("is-visible");

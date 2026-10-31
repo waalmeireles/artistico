@@ -561,8 +561,24 @@
       .making-sticker { min-height: 220px; }
       .making-art { margin-top: 30px; }
       .making-badge { top: -40px; left: -10px; width: 100px; height: 100px; }
-      .contact-grid { gap: 34px; }
-      .contact-photo, .contact-photo img { min-height: 340px; }
+      /* Contato: foto menor no centro e os três canais como selos nos cantos dela */
+      .contact-grid { grid-template-columns: 1fr 1fr; gap: 0; }
+      .contact-copy, .contact-links { display: contents; }
+      .contact-copy > :not(.contact-links) { grid-column: 1 / -1; }
+      .contact-copy > p:not(.eyebrow) { margin-bottom: 34px; }
+      .contact-photo { grid-column: 1 / -1; grid-row: 4 / 6; justify-self: center; width: 62%; min-height: 0; border-radius: 48px 20px 44px 22px; box-shadow: 6px 7px 0 var(--ink); }
+      .contact-photo::before { border-radius: 36px 12px 32px 14px; }
+      .contact-photo img { min-height: 0; height: auto; aspect-ratio: 4 / 5; }
+      .contact-link { position: relative; z-index: 2; min-height: 0; gap: 7px; padding: 5px 13px 5px 5px; border-radius: 999px; box-shadow: 3px 3px 0 var(--ink); }
+      .contact-icon { width: 34px; height: 34px; }
+      .contact-icon svg { width: 18px; height: 18px; }
+      .contact-detail strong { font-size: .9rem; }
+      /* Só o nome do canal aparece no selo; o endereço continua lido pelos leitores de tela */
+      .contact-detail span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+      #whatsapp-link { grid-column: 1; grid-row: 4; align-self: start; justify-self: start; margin-top: -12px; transform: rotate(-6deg); }
+      #instagram-link { grid-column: 2; grid-row: 4; align-self: start; justify-self: end; margin-top: 26%; transform: rotate(5deg); }
+      #email-link { grid-column: 1 / -1; grid-row: 5; align-self: end; justify-self: center; margin-bottom: -18px; transform: rotate(-2deg); }
+      .contact-link:hover { transform: translate(2px, 2px); }
       .footer-inner { flex-direction: column; align-items: flex-start; }
       .ticker-group { gap: 20px; font-size: 1.15rem; }
       .ticker-group span::after { margin-left: 20px; }

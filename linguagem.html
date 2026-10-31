@@ -67,6 +67,16 @@
     .title-circle { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; fill: none; stroke: var(--terracotta); stroke-width: 3.5; stroke-linecap: round; transform: rotate(-1.5deg); pointer-events: none; }
     .title-circle path { stroke-dasharray: 2400; stroke-dashoffset: 2400; animation: draw-circle 1.6s .35s ease-out forwards; }
     @keyframes draw-circle { to { stroke-dashoffset: 0; } }
+    /* Símbolo da linguagem (máscaras do teatro) pendurado no canto do nome, balançando de leve */
+    .title-symbol { position: absolute; top: -.62em; right: -1.2em; width: 1.6em; overflow: visible; transform-origin: 30% 10%; animation: symbol-in .6s 1.2s cubic-bezier(.2, 1.5, .4, 1) backwards, symbol-swing 4s 1.8s ease-in-out infinite; pointer-events: none; }
+    .title-symbol[hidden] { display: none; }
+    .title-symbol .mask { stroke: var(--ink); stroke-width: 3.5; stroke-linejoin: round; }
+    .mask-comedy { fill: var(--terracotta); }
+    .mask-tragedy { fill: var(--moss); }
+    .title-symbol .mask-line { fill: none; stroke: var(--ink); stroke-width: 3.5; stroke-linecap: round; }
+    .title-symbol .mask-mouth { fill: var(--ink); stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
+    @keyframes symbol-in { from { opacity: 0; transform: scale(.4) rotate(-30deg); } }
+    @keyframes symbol-swing { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(7deg); } }
     @keyframes letter-wave { 0%, 60%, 100% { transform: translateY(0) rotate(0); } 30% { transform: translateY(-10px) rotate(-4deg); } }
     @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -223,6 +233,19 @@
         <svg class="title-circle" viewBox="0 0 400 140" preserveAspectRatio="none" aria-hidden="true">
           <path vector-effect="non-scaling-stroke" d="M300 10 C220 6 120 8 64 12 C20 15 6 45 8 72 C10 105 30 128 70 130 C150 134 260 133 336 129 C378 126 394 100 392 70 C390 38 372 14 330 11 C300 9 270 12 246 16"></path>
         </svg>
+        <!-- Máscaras do teatro (tragédia atrás, comédia na frente), mostradas só na página de Teatro -->
+        <svg class="title-symbol" id="simbolo-teatro" viewBox="0 0 130 110" aria-hidden="true" hidden>
+          <g transform="translate(52 10) rotate(14 34 40)">
+            <path class="mask mask-tragedy" d="M4 10 Q34 -2 64 10 Q68 50 34 76 Q0 50 4 10 Z"></path>
+            <path class="mask-line" d="M16 30 Q23 37 30 30 M38 30 Q45 37 52 30"></path>
+            <path class="mask-line" d="M20 60 Q34 46 48 60"></path>
+          </g>
+          <g transform="translate(4 18) rotate(-12 34 40)">
+            <path class="mask mask-comedy" d="M4 10 Q34 -2 64 10 Q68 50 34 76 Q0 50 4 10 Z"></path>
+            <path class="mask-line" d="M16 32 Q23 25 30 32 M38 32 Q45 25 52 32"></path>
+            <path class="mask-mouth" d="M18 46 Q34 64 50 46 Q34 54 18 46 Z"></path>
+          </g>
+        </svg>
       </div>
       <p id="page-description">Um recorte dos trabalhos de Walquíria Meireles.</p>
     </header>
@@ -249,6 +272,7 @@
         nome: "Teatro",
         descricao: "Trabalhos de teatro na trajetória de Walquíria Meireles.",
         rotuloAbas: "Peças",
+        simbolo: "teatro",
         abas: [
           {
             nome: "A sessão",
@@ -667,6 +691,8 @@
     if (linguagem) {
       document.title = `${linguagem.nome} | Walquíria Meireles`;
       pageTitle.textContent = linguagem.nome;
+      // Símbolo desenhado ao lado do nome (ex.: as máscaras no Teatro).
+      if (linguagem.simbolo) document.getElementById(`simbolo-${linguagem.simbolo}`).removeAttribute("hidden"); // SVG não tem a propriedade .hidden
       document.querySelector("#page-description").textContent = linguagem.descricao;
       // Toda aba aparece, mesmo ainda sem fotos; sem abas, a lista só aparece se tiver algum trabalho.
       const grupos = linguagem.abas

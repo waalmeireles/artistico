@@ -212,11 +212,28 @@
       .cursor-core { width: 7px; height: 7px; border-radius: 50%; background: var(--burgundy); box-shadow: 0 0 8px var(--white); }
       .cursor-spark { position: absolute; top: -8px; right: -6px; color: var(--terracotta); font-size: 16px; text-shadow: 0 0 8px var(--white); }
     }
+    /* Contador do carrossel ("3 / 24 · deslize"), visível só no celular */
+    .carousel-hint { display: none; align-items: center; justify-content: center; gap: 10px; margin-top: 4px; color: var(--burgundy); font: 700 1.2rem/1 var(--hand); }
+    .carousel-count { padding: 3px 10px; color: var(--white); background: var(--burgundy); border: 2px solid var(--ink); border-radius: 999px; font: 400 .8rem/1.2 var(--marker); }
+    .carousel-hint .swipe { animation: swipe-nudge 1.6s ease-in-out infinite; }
+    @keyframes swipe-nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
     @media (max-width: 760px) { .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 520px) {
       .wrap { width: min(100% - 30px, 1120px); }
       main { padding: 55px 0 70px; }
-      .work-grid { grid-template-columns: 1fr; gap: 20px; }
+      /* No celular as fotos viram um carrossel: desliza para o lado e a próxima foto aparece na beirada */
+      .work-grid {
+        display: flex; gap: 14px; overflow-x: auto; overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory; scrollbar-width: none;
+        margin-inline: -14px; padding: 4px 14px 14px; scroll-padding-inline: 14px;
+      }
+      .work-grid::-webkit-scrollbar { display: none; }
+      .work-card { flex: 0 0 66%; scroll-snap-align: center; box-shadow: 4px 6px 0 var(--terracotta); }
+      .work-card:hover { transform: none; box-shadow: 4px 6px 0 var(--terracotta); }
+      .work-info { padding: 12px 14px; }
+      .work-info h3 { font-size: 1.1rem; }
+      .context { font-size: .85rem; }
+      .carousel-hint { display: flex; }
       .company-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
       .tabs { gap: 6px; padding: 14px 10px 0; }
       .tab { padding: 9px 16px 9px 14px; }
@@ -976,6 +993,27 @@
             companyGrid.append(card);
           });
           companySection.append(companyGrid);
+
+          // Contador do carrossel do celular: mostra em qual foto a pessoa está ao deslizar.
+          if (comFoto.length > 1) {
+            const hint = document.createElement("p");
+            hint.className = "carousel-hint";
+            hint.setAttribute("aria-hidden", "true");
+            const counter = document.createElement("span");
+            counter.className = "carousel-count";
+            counter.textContent = `1 / ${comFoto.length}`;
+            const swipe = document.createElement("span");
+            swipe.className = "swipe";
+            swipe.textContent = "deslize →";
+            hint.append(counter, swipe);
+            companySection.append(hint);
+            companyGrid.addEventListener("scroll", () => {
+              const card = companyGrid.firstElementChild;
+              const step = card.offsetWidth + parseFloat(getComputedStyle(companyGrid).columnGap || 0);
+              const atual = Math.min(comFoto.length, Math.round(companyGrid.scrollLeft / step) + 1);
+              counter.textContent = `${atual} / ${comFoto.length}`;
+            }, { passive: true });
+          }
         }
 
         // Trabalhos ainda sem foto aparecem como lista de títulos, sem caixas vazias.

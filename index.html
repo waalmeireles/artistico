@@ -52,7 +52,6 @@
       font-size: 17px;
       line-height: 1.6;
     }
-    body.menu-open { overflow: hidden; }
     a { color: inherit; }
     button, input, textarea { font: inherit; }
     button, a { -webkit-tap-highlight-color: transparent; }
@@ -144,7 +143,6 @@
     .menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
     .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
     .menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-    body.menu-open .site-header { backdrop-filter: none; -webkit-backdrop-filter: none; }
 
     .hero { min-height: min(790px, calc(100svh - 74px)); padding: 54px 0 72px; display: grid; align-items: center; overflow: hidden; }
     .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: clamp(30px, 7vw, 90px); }
@@ -528,22 +526,28 @@
       .site-header .nav-wrap { min-height: 66px; }
       .brand { font-size: 1.2rem; }
       .menu-toggle { display: flex; position: relative; z-index: 22; }
+      .site-header .nav-wrap { position: relative; }
       .nav-links {
-        position: fixed;
+        position: absolute;
         z-index: 21;
-        inset: 0;
+        top: calc(100% - 6px);
+        right: 0;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        gap: 22px;
-        padding: 80px 25px;
+        align-items: stretch;
+        gap: 0;
+        min-width: 170px;
+        padding: 6px 0;
         background: var(--paper);
-        transform: translateX(100%);
+        border: var(--line);
+        box-shadow: 4px 4px 0 var(--ink);
+        opacity: 0;
+        transform: translateY(-8px);
         visibility: hidden;
-        transition: transform .25s ease, visibility .25s ease;
+        transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
       }
-      .nav-links.is-open { transform: translateX(0); visibility: visible; }
-      .nav-links a { font: 400 2rem/1 var(--display); }
+      .nav-links.is-open { opacity: 1; transform: translateY(0); visibility: visible; }
+      .nav-links a { display: block; padding: 11px 18px; font: 400 1.25rem/1 var(--display); }
       .hero { padding: 56px 0 64px; }
       .hero-grid { grid-template-columns: 1fr; gap: 45px; }
       .hero h1 { font-size: clamp(4rem, 19vw, 7rem); }
@@ -876,16 +880,17 @@
       menu.classList.remove("is-open");
       menuButton.setAttribute("aria-expanded", "false");
       menuButton.setAttribute("aria-label", "Abrir menu");
-      document.body.classList.remove("menu-open");
     };
     menuButton.addEventListener("click", () => {
       const isOpen = menuButton.getAttribute("aria-expanded") !== "true";
       menuButton.setAttribute("aria-expanded", String(isOpen));
       menuButton.setAttribute("aria-label", isOpen ? "Fechar menu" : "Abrir menu");
       menu.classList.toggle("is-open", isOpen);
-      document.body.classList.toggle("menu-open", isOpen);
     });
     menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+    document.addEventListener("click", (event) => {
+      if (!menu.contains(event.target) && !menuButton.contains(event.target)) closeMenu();
+    });
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") closeMenu();
     });
